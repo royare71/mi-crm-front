@@ -1,26 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────
+   DESIGN SYSTEM — Paleta corporativa CRM Pro
+   ───────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colores primarios — Slate/Navy corporativo */
+  --crm-primary: #1e293b;
+  --crm-primary-light: #334155;
+  --crm-primary-dark: #0f172a;
+
+  /* Acento — Azul corporativo */
+  --crm-accent: #2563eb;
+  --crm-accent-hover: #1d4ed8;
+  --crm-accent-light: #dbeafe;
+  --crm-accent-subtle: #eff6ff;
+
+  /* Superficies */
+  --crm-bg: #f8fafc;
+  --crm-surface: #ffffff;
+  --crm-surface-hover: #f1f5f9;
+  --crm-border: #e2e8f0;
+  --crm-border-light: #f1f5f9;
+
+  /* Texto */
+  --crm-text: #0f172a;
+  --crm-text-secondary: #475569;
+  --crm-text-muted: #94a3b8;
+  --crm-text-inverse: #ffffff;
+
+  /* Feedback */
+  --crm-success: #059669;
+  --crm-success-light: #ecfdf5;
+  --crm-warning: #d97706;
+  --crm-warning-light: #fffbeb;
+  --crm-danger: #dc2626;
+  --crm-danger-light: #fef2f2;
+  --crm-info: #0284c7;
+  --crm-info-light: #f0f9ff;
+
+  /* Sidebar */
+  --crm-sidebar-w: 260px;
+
+  /* Sombras corporativas */
+  --crm-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --crm-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --crm-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --crm-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+
+  /* Radios */
+  --crm-radius-sm: 6px;
+  --crm-radius: 8px;
+  --crm-radius-lg: 12px;
+
+  /* Transiciones */
+  --crm-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--crm-bg);
+  --color-foreground: var(--crm-text);
+  --color-primary: var(--crm-accent);
+  --color-primary-hover: var(--crm-accent-hover);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Reset base ─── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--crm-bg);
+  color: var(--crm-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Botones
+   ───────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: var(--crm-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--crm-transition);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--crm-accent);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--crm-accent);
+  color: var(--crm-text-inverse);
+  border-color: var(--crm-accent);
+}
+
+.btn-primary:hover {
+  background: var(--crm-accent-hover);
+  border-color: var(--crm-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--crm-surface);
+  color: var(--crm-text);
+  border-color: var(--crm-border);
+}
+
+.btn-secondary:hover {
+  background: var(--crm-surface-hover);
+}
+
+.btn-danger {
+  background: var(--crm-danger);
+  color: var(--crm-text-inverse);
+  border-color: var(--crm-danger);
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--crm-text-secondary);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--crm-surface-hover);
+  color: var(--crm-text);
+}
+
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 12px;
+}
+
+.btn-lg {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Cards
+   ───────────────────────────────────────────── */
+
+.card {
+  background: var(--crm-surface);
+  border: 1px solid var(--crm-border);
+  border-radius: var(--crm-radius-lg);
+  box-shadow: var(--crm-shadow-xs);
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--crm-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--crm-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Tablas
+   ───────────────────────────────────────────── */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--crm-radius-lg);
+  border: 1px solid var(--crm-border);
+  background: var(--crm-surface);
+  box-shadow: var(--crm-shadow-xs);
+}
+
+.table-crm {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-crm thead {
+  background: var(--crm-bg);
+  border-bottom: 1px solid var(--crm-border);
+}
+
+.table-crm th {
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--crm-text-muted);
+  white-space: nowrap;
+}
+
+.table-crm td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--crm-border-light);
+  color: var(--crm-text);
+  vertical-align: middle;
+}
+
+.table-crm tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-crm tbody tr {
+  transition: background var(--crm-transition);
+}
+
+.table-crm tbody tr:hover {
+  background: var(--crm-surface-hover);
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Badges
+   ───────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9999px;
+  letter-spacing: 0.01em;
+}
+
+.badge-success {
+  background: var(--crm-success-light);
+  color: var(--crm-success);
+}
+
+.badge-warning {
+  background: var(--crm-warning-light);
+  color: var(--crm-warning);
+}
+
+.badge-danger {
+  background: var(--crm-danger-light);
+  color: var(--crm-danger);
+}
+
+.badge-info {
+  background: var(--crm-info-light);
+  color: var(--crm-info);
+}
+
+.badge-neutral {
+  background: var(--crm-surface-hover);
+  color: var(--crm-text-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Alertas
+   ───────────────────────────────────────────── */
+
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--crm-radius);
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  background: var(--crm-success-light);
+  color: var(--crm-success);
+  border-color: #a7f3d0;
+}
+
+.alert-warning {
+  background: var(--crm-warning-light);
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.alert-danger {
+  background: var(--crm-danger-light);
+  color: var(--crm-danger);
+  border-color: #fecaca;
+}
+
+.alert-info {
+  background: var(--crm-info-light);
+  color: var(--crm-info);
+  border-color: #bae6fd;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Inputs / Forms
+   ───────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--crm-text);
+  background: var(--crm-surface);
+  border: 1px solid var(--crm-border);
+  border-radius: var(--crm-radius);
+  transition: all var(--crm-transition);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--crm-accent);
+  box-shadow: 0 0 0 3px var(--crm-accent-light);
+}
+
+.input::placeholder {
+  color: var(--crm-text-muted);
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--crm-text);
+  margin-bottom: 4px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Modal / Popup
+   ───────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: fadeIn 150ms ease-out;
+}
+
+.modal {
+  background: var(--crm-surface);
+  border-radius: var(--crm-radius-lg);
+  box-shadow: var(--crm-shadow-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 200ms ease-out;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+
+.modal-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--crm-text);
+}
+
+.modal-body {
+  padding: 20px 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--crm-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Stat Cards
+   ───────────────────────────────────────────── */
+
+.stat-card {
+  background: var(--crm-surface);
+  border: 1px solid var(--crm-border);
+  border-radius: var(--crm-radius-lg);
+  padding: 20px;
+  box-shadow: var(--crm-shadow-xs);
+  transition: box-shadow var(--crm-transition);
+}
+
+.stat-card:hover {
+  box-shadow: var(--crm-shadow-sm);
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--crm-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--crm-text);
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.stat-change {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+/* ─────────────────────────────────────────────
+   LAYOUT — Sidebar
+   ───────────────────────────────────────────── */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--crm-sidebar-w);
+  background: var(--crm-primary-dark);
+  color: var(--crm-text-inverse);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 20px 24px;
+}
+
+.sidebar-brand-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--crm-accent);
+  border-radius: var(--crm-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.sidebar-brand-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-section {
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+.sidebar-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 0 8px;
+  margin-bottom: 6px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--crm-radius);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: all var(--crm-transition);
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-link-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Layout principal ─── */
+
+.dashboard-layout {
+  margin-left: var(--crm-sidebar-w);
+  min-height: 100vh;
+  background: var(--crm-bg);
+}
+
+.dashboard-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 56px;
+  background: var(--crm-surface);
+  border-bottom: 1px solid var(--crm-border);
+}
+
+.dashboard-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-content {
+  padding: 28px;
+  max-width: 1280px;
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES UNIVERSALES — Empty State
+   ───────────────────────────────────────────── */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  border: 1px dashed var(--crm-border);
+  border-radius: var(--crm-radius-lg);
+  background: var(--crm-surface);
+}
+
+.empty-state-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--crm-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--crm-text-muted);
+  margin-bottom: 14px;
+}
+
+.empty-state-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--crm-text);
+  margin-bottom: 4px;
+}
+
+.empty-state-description {
+  font-size: 13px;
+  color: var(--crm-text-muted);
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+/* ─────────────────────────────────────────────
+   PAGE HEADER — Encabezados de sección
+   ───────────────────────────────────────────── */
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--crm-text);
+  line-height: 1.3;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--crm-text-muted);
+  margin-top: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   UTILITIES
+   ───────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--crm-border);
+  margin: 16px 0;
+  border: none;
+}
+
+.text-muted {
+  color: var(--crm-text-muted);
+}
+
+.text-success {
+  color: var(--crm-success);
+}
+
+.text-danger {
+  color: var(--crm-danger);
 }
