@@ -16,7 +16,7 @@ const mainNav: NavItem[] = [
 ];
 
 const settingsNav: NavItem[] = [
-    { label: 'Configuración', href: '/dashboard/configuracion', icon: '⚙️' },
+    { label: 'Configuración', href: '/dashboard/settings', icon: '⚙️' },
 ];
 
 export default function Sidebar() {

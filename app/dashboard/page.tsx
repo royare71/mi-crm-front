@@ -1,11 +1,18 @@
 import { auth } from "@clerk/nextjs/server";
 import { fetchWithAuth } from "@/lib/api";
+import NewClientButton from "@/components/NewClientButton";
+import Link from "next/link";
 
+// 1. Actualizamos la interfaz para que TypeScript sepa que vienen fechas y notas
 interface Client {
     id: string;
-    name: string;
+    nombre: string;
     email: string;
-    phone?: string;
+    telefono?: string;
+    empresa?: string;
+    estado?: string;
+    creado_en: string; // <-- Fecha de creación
+    _count: { notes: number };
 }
 
 export default async function DashboardPage() {
@@ -27,6 +34,30 @@ export default async function DashboardPage() {
         errorLoading = true;
     }
 
+    // =========================================================
+    // 🧠 LÓGICA DE NEGOCIO (MÉTRICAS DEL DASHBOARD)
+    // =========================================================
+
+    // A) Clientes activos
+    const activos = clients.filter(c => c.estado === 'ACTIVO').length;
+
+    // B) Clientes de este mes
+    const ahora = new Date();
+    // Crea una fecha seteada al día 1, a las 00:00:00 del mes actual
+    const primerDiaDelMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+
+    const clientesEsteMes = clients.filter(client => {
+        const fechaCreacion = new Date(client.creado_en);
+        return fechaCreacion >= primerDiaDelMes;
+    }).length;
+
+    // C) Total de Notas
+    // Suma la longitud del arreglo 'notes' de cada cliente. 
+    // Si un cliente no tiene notas, suma 0.
+    const totalNotas = clients.reduce((acc, client) => acc + client._count.notes, 0);
+    console.log(`totalNotas`, totalNotas);
+
+
     return (
         <>
             {/* Encabezado de página */}
@@ -35,10 +66,10 @@ export default async function DashboardPage() {
                     <h1 className="page-title">Panel de Control</h1>
                     <p className="page-subtitle">Resumen general de tu sistema CRM.</p>
                 </div>
-                <button className="btn btn-primary">
+                <NewClientButton className="btn btn-primary">
                     <span>+</span>
                     Nuevo Cliente
-                </button>
+                </NewClientButton>
             </div>
 
             {/* Tarjetas de estadísticas */}
@@ -52,22 +83,22 @@ export default async function DashboardPage() {
                 </div>
                 <div className="stat-card">
                     <div className="stat-label">Activos</div>
-                    <div className="stat-value">{clients.length}</div>
+                    <div className="stat-value">{activos}</div>
                     <div className="stat-change" style={{ color: 'var(--crm-text-muted)' }}>
                         En seguimiento
                     </div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-label">Notas</div>
-                    <div className="stat-value">—</div>
+                    <div className="stat-value">{totalNotas}</div>
                     <div className="stat-change" style={{ color: 'var(--crm-text-muted)' }}>
-                        Sin datos aún
+                        Registradas en total
                     </div>
                 </div>
                 <div className="stat-card">
                     <div className="stat-label">Este Mes</div>
-                    <div className="stat-value">—</div>
-                    <div className="stat-change" style={{ color: 'var(--crm-text-muted)' }}>
+                    <div className="stat-value">{clientesEsteMes}</div>
+                    <div className="stat-change" style={{ color: 'var(--crm-success)' }}>
                         Nuevos clientes
                     </div>
                 </div>
@@ -91,10 +122,10 @@ export default async function DashboardPage() {
                     <p className="empty-state-description">
                         Comienza agregando tu primer cliente para gestionar sus datos e interacciones.
                     </p>
-                    <button className="btn btn-primary">
+                    <NewClientButton className="btn btn-primary">
                         <span>+</span>
                         Agregar Primer Cliente
-                    </button>
+                    </NewClientButton>
                 </div>
             ) : (
                 <div className="card">
@@ -134,15 +165,15 @@ export default async function DashboardPage() {
                                                         flexShrink: 0,
                                                     }}
                                                 >
-                                                    {client.name.charAt(0).toUpperCase()}
+                                                    {client.nombre ? client.nombre.charAt(0).toUpperCase() : '?'}
                                                 </div>
-                                                <span style={{ fontWeight: 500 }}>{client.name}</span>
+                                                <span style={{ fontWeight: 500 }}>{client.nombre}</span>
                                             </div>
                                         </td>
                                         <td style={{ color: 'var(--crm-text-secondary)' }}>{client.email}</td>
-                                        <td style={{ color: 'var(--crm-text-secondary)' }}>{client.phone || '—'}</td>
+                                        <td style={{ color: 'var(--crm-text-secondary)' }}>{client.telefono || '—'}</td>
                                         <td style={{ textAlign: 'right' }}>
-                                            <button className="btn btn-ghost btn-sm">Ver</button>
+                                            <Link href={`/dashboard/clients/${client.id}`} className="btn btn-ghost btn-sm">Ver</Link>
                                         </td>
                                     </tr>
                                 ))}
