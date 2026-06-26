@@ -27,7 +27,7 @@ export default function ClientDetailClient({ initialClient }: { initialClient: C
     const [client, setClient] = useState<ClientData>(initialClient);
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    
+
     // Form state for editing client
     const [nombre, setNombre] = useState(client.nombre);
     const [email, setEmail] = useState(client.email);
@@ -35,7 +35,7 @@ export default function ClientDetailClient({ initialClient }: { initialClient: C
     const [empresa, setEmpresa] = useState(client.empresa || '');
     const [estado, setEstado] = useState(client.estado);
     const [saving, setSaving] = useState(false);
-    
+
     // Form state for notes
     const [newNoteContent, setNewNoteContent] = useState('');
     const [newNoteType, setNewNoteType] = useState('NOTA');
@@ -86,7 +86,7 @@ export default function ClientDetailClient({ initialClient }: { initialClient: C
                 method: 'DELETE'
             });
             if (res.ok) {
-                router.push('/dashboard');
+                router.push('/dashboard/clients');
                 router.refresh();
             } else {
                 alert('Error al eliminar');
@@ -152,9 +152,22 @@ export default function ClientDetailClient({ initialClient }: { initialClient: C
         <div>
             <div className="page-header" style={{ marginBottom: '20px' }}>
                 <div>
-                    <Link href="/dashboard" style={{ color: 'var(--crm-text-muted)', textDecoration: 'none', fontSize: '14px', marginBottom: '8px', display: 'inline-block' }}>
-                        &larr; Volver al Dashboard
-                    </Link>
+                    <button
+                        onClick={() => router.back()}
+                        style={{
+                            color: 'var(--crm-text-muted)',
+                            textDecoration: 'none',
+                            fontSize: '14px',
+                            marginBottom: '8px',
+                            display: 'inline-block',
+                            background: 'transparent', // <- Quitamos el fondo gris del botón
+                            border: 'none',            // <- Quitamos el borde
+                            cursor: 'pointer',         // <- Ponemos la manita al pasar el mouse
+                            padding: 0                 // <- Quitamos el relleno por defecto
+                        }}
+                    >
+                        &larr; Volver
+                    </button>
                     <h1 className="page-title">{client.nombre}</h1>
                     <p className="page-subtitle">{client.empresa || 'Sin empresa'} - {client.email}</p>
                 </div>
@@ -224,9 +237,9 @@ export default function ClientDetailClient({ initialClient }: { initialClient: C
                     </div>
                     <div className="card-body" style={{ padding: '20px' }}>
                         <form onSubmit={handleAddNote} style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexDirection: 'column' }}>
-                            <textarea 
-                                className="input" 
-                                placeholder="Escribe una nueva nota o interacción..." 
+                            <textarea
+                                className="input"
+                                placeholder="Escribe una nueva nota o interacción..."
                                 style={{ minHeight: '80px', resize: 'vertical' }}
                                 value={newNoteContent}
                                 onChange={e => setNewNoteContent(e.target.value)}
