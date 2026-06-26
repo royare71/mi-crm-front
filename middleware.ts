@@ -1,16 +1,29 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// Definimos qué rutas son públicas
-const isPublicRoute = createRouteMatcher(['/', '/sign-in(.*)', '/sign-up(.*)']);
+// Define las rutas públicas
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 
-// 1. Agregamos 'async' aquí
 export default clerkMiddleware(async (auth, request) => {
-    if (!isPublicRoute(request)) {
-        // 2. Usamos 'await auth.protect()' en lugar de 'auth().protect()'
-        await auth.protect();
+    // 1. Ignoramos rutas de API para que el backend de Express valide el token
+    if (request.nextUrl.pathname.startsWith('/api')) {
+        return;
+    }
+
+    // 2. Resolvemos la autenticación
+    const authObject = await auth();
+
+    // 3. Si no es pública y no tiene userId, redirigimos manualmente
+    if (!isPublicRoute(request) && !authObject.userId) {
+        const signInUrl = new URL('/sign-in', request.url);
+        return NextResponse.redirect(signInUrl);
     }
 });
 
 export const config = {
-    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: [
+        '/((?!.*\\..*|_next).*)',
+        '/',
+        '/(api|trpc)(.*)',
+    ],
 };

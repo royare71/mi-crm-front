@@ -17,6 +17,7 @@ interface Client {
 
 export default async function DashboardPage() {
     const { getToken } = await auth();
+    const numeroRecientes = 5;
     const token = await getToken();
 
     let clients: Client[] = [];
@@ -133,7 +134,7 @@ export default async function DashboardPage() {
                         <h3 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--crm-text)' }}>
                             Clientes Recientes
                         </h3>
-                        <span className="badge badge-success">{clients.length} registros</span>
+                        <span className="badge badge-success">{numeroRecientes} registros</span>
                     </div>
                     <div className="table-container" style={{ border: 'none', borderRadius: 0, boxShadow: 'none' }}>
                         <table className="table-crm">
@@ -146,7 +147,8 @@ export default async function DashboardPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {clients.map((client) => (
+                                {/* 👇 AQUÍ ESTÁ LA MAGIA: .slice(0, 10) limita el render a los primeros 10 */}
+                                {clients.slice(0, numeroRecientes).map((client) => (
                                     <tr key={client.id}>
                                         <td>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -180,6 +182,14 @@ export default async function DashboardPage() {
                             </tbody>
                         </table>
                     </div>
+                    {/* 👇 Opcional pero recomendado: Un link para ver todos si hay más de 10 */}
+                    {clients.length > numeroRecientes && (
+                        <div style={{ padding: '16px', textAlign: 'center', borderTop: '1px solid var(--crm-border)' }}>
+                            <Link href="/dashboard/clients" style={{ color: 'var(--crm-primary)', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
+                                Ver los {clients.length} clientes →
+                            </Link>
+                        </div>
+                    )}
                 </div>
             )}
         </>

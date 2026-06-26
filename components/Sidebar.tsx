@@ -12,7 +12,7 @@ interface NavItem {
 
 const mainNav: NavItem[] = [
     { label: 'Panel de Control', href: '/dashboard', icon: '📊' },
-    { label: 'Clientes', href: '/dashboard/clientes', icon: '👥' },
+    { label: 'Clientes', href: '/dashboard/clients', icon: '👥' },
 ];
 
 const settingsNav: NavItem[] = [
@@ -66,18 +66,23 @@ export default function Sidebar() {
             </nav>
 
             {/* Footer con usuario */}
-            <div className="sidebar-footer">
-                <div className="sidebar-link" style={{ cursor: 'default' }}>
+            <div className="sidebar-footer" style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <UserButton
                         appearance={{
                             elements: {
-                                avatarBox: { width: '28px', height: '28px' },
+                                avatarBox: { width: '32px', height: '32px' },
                             },
                         }}
                     />
-                    <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
-                        Mi Cuenta
-                    </span>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontSize: '14px', color: 'white', fontWeight: 500 }}>
+                            Mi Perfil
+                        </span>
+                        <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                            Configuración
+                        </span>
+                    </div>
                 </div>
             </div>
         </aside>
