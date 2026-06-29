@@ -65,9 +65,9 @@ export default function Sidebar() {
                 ))}
             </nav>
 
-            {/* Footer con usuario */}
-            <div className="sidebar-footer" style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* Footer con usuario — Migrado a utilidades Tailwind para evitar bloqueos CSS */}
+            <div className="sidebar-footer">
+                <div className="flex items-center gap-3">
                     <UserButton
                         appearance={{
                             elements: {
@@ -75,11 +75,11 @@ export default function Sidebar() {
                             },
                         }}
                     />
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: '14px', color: 'white', fontWeight: 500 }}>
+                    <div className="flex flex-col">
+                        <span className="text-sm text-white font-medium leading-none mb-1">
                             Mi Perfil
                         </span>
-                        <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                        <span className="text-xs text-white/50 leading-none">
                             Configuración
                         </span>
                     </div>

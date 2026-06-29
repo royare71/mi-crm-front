@@ -378,6 +378,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 50;
+  padding: 16px;
   animation: fadeIn 150ms ease-out;
 }
 
@@ -387,7 +388,7 @@ body {
   box-shadow: var(--crm-shadow-lg);
   width: 100%;
   max-width: 480px;
-  max-height: 90vh;
+  max-height: calc(100vh - 32px);
   overflow-y: auto;
   animation: slideUp 200ms ease-out;
 }
@@ -419,8 +420,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -428,6 +434,7 @@ body {
     opacity: 0;
     transform: translateY(8px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -474,13 +481,14 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   LAYOUT — Sidebar
+   LAYOUT — Sidebar Responsivo (Mobile-First)
    ───────────────────────────────────────────── */
 
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -var(--crm-sidebar-w);
+  /* Oculto en móvil por defecto */
   bottom: 0;
   width: var(--crm-sidebar-w);
   background: var(--crm-primary-dark);
@@ -489,6 +497,20 @@ body {
   flex-direction: column;
   z-index: 40;
   overflow-y: auto;
+  transition: left var(--crm-transition);
+}
+
+/* Desktop Breakpoint */
+@media (min-width: 768px) {
+  .sidebar {
+    left: 0;
+    /* Fijo visible en escritorio */
+  }
+}
+
+/* Clase de escape para control manual si es necesario */
+.sidebar.open {
+  left: 0;
 }
 
 .sidebar-brand {
@@ -577,9 +599,18 @@ body {
 /* ─── Layout principal ─── */
 
 .dashboard-layout {
-  margin-left: var(--crm-sidebar-w);
+  margin-left: 0;
+  /* 100% de ancho en móvil */
   min-height: 100vh;
   background: var(--crm-bg);
+  transition: margin-left var(--crm-transition);
+}
+
+@media (min-width: 768px) {
+  .dashboard-layout {
+    margin-left: var(--crm-sidebar-w);
+    /* Ajuste dinámico para pantallas grandes */
+  }
 }
 
 .dashboard-topbar {
@@ -589,10 +620,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 16px;
   height: 56px;
   background: var(--crm-surface);
   border-bottom: 1px solid var(--crm-border);
+}
+
+@media (min-width: 768px) {
+  .dashboard-topbar {
+    padding: 0 28px;
+  }
 }
 
 .dashboard-topbar-left {
@@ -608,8 +645,15 @@ body {
 }
 
 .dashboard-content {
-  padding: 28px;
-  max-width: 1280px;
+  padding: 16px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .dashboard-content {
+    padding: 28px;
+    max-width: 1280px;
+  }
 }
 
 /* ─────────────────────────────────────────────
@@ -661,9 +705,17 @@ body {
 
 .page-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+  .page-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
 }
 
 .page-title {

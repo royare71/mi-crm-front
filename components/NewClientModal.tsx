@@ -63,7 +63,7 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
                 <div className="modal-header">
                     <h2>Nuevo Cliente</h2>
                     <button
-                        className="btn btn-ghost btn-sm"
+                        className="btn btn-ghost btn-sm text-slate-500 hover:text-slate-800"
                         onClick={onClose}
                         type="button"
                         aria-label="Cerrar"
@@ -75,7 +75,7 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
                 <form onSubmit={handleSubmit}>
                     <div className="modal-body">
                         {error && (
-                            <div className="alert alert-danger" style={{ marginBottom: '16px' }}>
+                            <div className="alert alert-danger mb-4 flex items-center gap-2">
                                 <span>⚠️</span>
                                 <span>{error}</span>
                             </div>
@@ -83,7 +83,7 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
 
                         <div className="form-group">
                             <label htmlFor="client-name" className="label">
-                                Nombre <span style={{ color: 'var(--crm-danger)' }}>*</span>
+                                Nombre <span className="text-red-600">*</span>
                             </label>
                             <input
                                 id="client-name"
@@ -99,7 +99,7 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
 
                         <div className="form-group">
                             <label htmlFor="client-empresa" className="label">
-                                Empresa <span style={{ color: 'var(--crm-text-muted)', fontWeight: 400 }}>(opcional)</span>
+                                Empresa <span className="text-slate-400 font-normal">(opcional)</span>
                             </label>
                             <input
                                 id="client-empresa"
@@ -114,7 +114,7 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
 
                         <div className="form-group">
                             <label htmlFor="client-email" className="label">
-                                Correo Electrónico <span style={{ color: 'var(--crm-danger)' }}>*</span>
+                                Correo Electrónico <span className="text-red-600">*</span>
                             </label>
                             <input
                                 id="client-email"
@@ -127,9 +127,9 @@ export default function NewClientModal({ onClose, onClientCreated }: NewClientMo
                             />
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: 0 }}>
+                        <div className="form-group mb-0">
                             <label htmlFor="client-phone" className="label">
-                                Teléfono <span style={{ color: 'var(--crm-text-muted)', fontWeight: 400 }}>(opcional)</span>
+                                Teléfono <span className="text-slate-400 font-normal">(opcional)</span>
                             </label>
                             <input
                                 id="client-phone"
